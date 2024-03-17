@@ -76,6 +76,7 @@ model = NeuralNet(input_size, hidden_size, output_size)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
+#run the training
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
         words = words.to(device)
@@ -94,5 +95,21 @@ for epoch in range(num_epochs):
         print(f'epoch {epoch+1}/{num_epochs}, loss={loss.item():.4f}')
 
 print(f'final loss, loss={loss.item():.4f}')
+
+#creating dictionary for storing data
+data = {
+    "model_state": model.state_dict(),
+    "input_size": input_size,
+    "output_size": output_size,
+    "hidden_size": hidden_size,
+    "all_words": all_words,
+    "tags": tags
+}
+
+FILE = "data.pth" #data.pytorch
+torch.save(data, FILE) #serialize and save to a FILE
+print(f'training complete. file saved to {FILE}')
+
+
 
 
